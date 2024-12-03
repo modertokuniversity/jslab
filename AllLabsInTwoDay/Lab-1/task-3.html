@@ -1,0 +1,23 @@
+<html>
+<head>
+    <script>
+        function fun(a) {
+            document.getElementById('t_res').value = a;
+        }
+        function fun1(a) {
+            document.getElementById('t_res2').value = a;
+        }
+    </script>
+</head>
+<body onLoad="fun('Сторінка завантажена');">
+<h3>Завдання 3.</h3>
+<form id="main_form">
+    <input type="text" size="50" value="onClick" onClick="fun('Клік по текстовому елементу');"><br>
+    <input type="text" size="50" value="onChange" onChange="fun('Вміст текстового поля змінено');"><br>
+    <input type="text" size="50" id="t_res" onMouseOver="fun('Курсор над текстовим елементом');" onMouseOut="fun('Курсор залишив текстовий елемент');"><br>
+    <input type="text" size="50" id="t_res2" onFocus="fun1('Елемент отримав фокус');" onSelect="fun1('Текст у полі виділено');"><br>
+    <a href="index-lab-1.html">Назад</a>
+</form>
+</body>
+</html>
+

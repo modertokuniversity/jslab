@@ -1,0 +1,91 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    div.hovered {
+      background-color: #f0f8ff;
+      border: 2px solid #007bff;
+    }
+  </style>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+        margin: 0;
+        padding: 20px;
+        color: #004080;
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #0073e6;
+    }
+
+    div {
+        margin: 20px auto;
+        padding: 20px;
+        width: 60%;
+        background-color: #e6f7ff;
+        border: 1px solid #99ccff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+        width: 90%;
+        padding: 8px;
+        margin: 10px 0;
+        border: 1px solid #99ccff;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #0073e6;
+        box-shadow: 0 0 5px rgba(0, 115, 230, 0.5);
+    }
+
+    button {
+        background-color: #0073e6;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button:hover {
+        background-color: #005bb5;
+    }
+
+    p {
+        color: #004080;
+        font-weight: bold;
+    }
+</style>
+  <script>
+    $(document).ready(function () {
+      // Виведення текстів у перший та останній абзаци
+      $("p:first").text("DOM first!");
+      $("p:last").text("DOM last!");
+
+      // Додавання стилів для div під час наведення
+      $("div").hover(
+        function () {
+          $(this).addClass("hovered");
+        },
+        function () {
+          $(this).removeClass("hovered");
+        }
+      );
+    });
+  </script>
+</head>
+<body>
+  <p>Перший абзац</p>
+  <div>Див з текстом для наведеного стилю</div>
+  <p>Останній абзац</p>
+</body>
+</html>

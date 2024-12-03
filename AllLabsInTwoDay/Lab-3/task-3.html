@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Екранна клавіатура</title>
+    <script>
+        let currentLanguage = "ua";
+        const ukrainianLetters = ['а', 'б', 'в', 'г', 'д', 'е', 'є', 'и', 'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я'];
+        const englishLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+        function createKeyboard(letters) {
+            let keyboardContent = "<div>";
+            const digits = "1234567890";
+
+            // Створення кнопок з цифрами
+            for (let digit of digits) {
+                keyboardContent += `<button onclick="addSymbol('${digit}')">${digit}</button>`;
+            }
+            keyboardContent += "<br>";
+
+            // Створення кнопок з літерами
+            letters.forEach((letter, index) => {
+                if (index % 11 === 0 && index !== 0) {
+                    keyboardContent += "<br>";
+                }
+                keyboardContent += `<button onclick="addSymbol('${letter}')">${letter}</button>`;
+            });
+
+            keyboardContent += "</div>";
+            document.getElementById('keyboardContainer').innerHTML = keyboardContent;
+        }
+
+        function addSymbol(symbol) {
+            document.getElementById('textDisplay').value += symbol;
+        }
+
+        function clearDisplay() {
+            document.getElementById('textDisplay').value = '';
+        }
+
+        function switchLanguage() {
+            currentLanguage = currentLanguage === "ua" ? "en" : "ua";
+            const selectedLetters = currentLanguage === "ua" ? ukrainianLetters : englishLetters;
+            createKeyboard(selectedLetters);
+        }
+    </script>
+</head>
+<body onload="createKeyboard(ukrainianLetters)">
+<h2>Екранна клавіатура</h2>
+
+<div>
+    <textarea id="textDisplay" rows="5" cols="50"></textarea>
+</div>
+
+<div id="keyboardContainer"></div>
+<br>
+<button onclick="clearDisplay()">Очистити поле</button>
+<button onclick="switchLanguage()">Alt+Shift</button>
+<br><br>
+<a href="index-lab-3.html">Назад</a>
+</body>
+</html>

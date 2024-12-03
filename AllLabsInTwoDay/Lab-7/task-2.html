@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            color: #004080;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0073e6;
+        }
+
+        div {
+            margin: 20px auto;
+            padding: 20px;
+            width: 60%;
+            background-color: #e6f7ff;
+            border: 1px solid #99ccff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #99ccff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0073e6;
+            box-shadow: 0 0 5px rgba(0, 115, 230, 0.5);
+        }
+
+        button {
+            background-color: #0073e6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        p {
+            color: #004080;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Завдання 2</h1>
+
+<div>
+    <h2>2.1. Порівняння довжини рядків</h2>
+    <input type="text" id="firstStringInput" placeholder="Перше рядок">
+    <input type="text" id="secondStringInput" placeholder="Друге рядок">
+    <button onclick="compareStringLengths()">Перевірити</button>
+    <p id="stringLengthOutput"></p>
+</div>
+
+<div>
+    <h2>2.2. Пошук символу в рядку</h2>
+    <input type="text" id="textInput" placeholder="Рядок">
+    <input type="text" id="searchCharInput" placeholder="Символ">
+    <button onclick="findCharInString()">Знайти</button>
+    <p id="charSearchOutput"></p>
+</div>
+
+<div>
+    <h2>2.3. Переведення першого символу в верхній регістр</h2>
+    <input type="text" id="capitalizeTextInput" placeholder="Рядок">
+    <button onclick="capitalizeFirstChar()">Перевести</button>
+    <p id="capitalizedTextOutput"></p>
+</div>
+
+<div>
+    <h2>2.4. Підрахунок голосних літер</h2>
+    <input type="text" id="vowelTextInput" placeholder="Рядок">
+    <button onclick="countVowelLetters()">Порахувати</button>
+    <p id="vowelOutput"></p>
+</div>
+
+<div>
+    <h2>2.5. Перевірка на спам</h2>
+    <input type="text" id="spamTextInput" placeholder="Рядок">
+    <button onclick="detectSpam()">Перевірити</button>
+    <p id="spamCheckOutput"></p>
+</div>
+
+<div>
+    <h2>2.6. Скорочення рядка</h2>
+    <input type="text" id="truncateTextInput" placeholder="Рядок">
+    <input type="number" id="truncateMaxLengthInput" placeholder="Максимальна довжина">
+    <button onclick="shortenString()">Скоротити</button>
+    <p id="shortenedOutput"></p>
+</div>
+
+<script>
+    function compareStringLengths() {
+        const firstString = document.getElementById("firstStringInput").value;
+        const secondString = document.getElementById("secondStringInput").value;
+        let comparisonResult;
+        if (firstString.length > secondString.length) {
+            comparisonResult = 1;
+        } else if (firstString.length < secondString.length) {
+            comparisonResult = -1;
+        } else {
+            comparisonResult = 0;
+        }
+        document.getElementById("stringLengthOutput").innerText = `Результат: ${comparisonResult}`;
+    }
+
+    function findCharInString() {
+        const text = document.getElementById("textInput").value;
+        const searchChar = document.getElementById("searchCharInput").value;
+        const foundIndices = [];
+        let totalOccurrences = 0;
+
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] === searchChar) {
+                foundIndices.push(i);
+                totalOccurrences++;
+            }
+        }
+
+        document.getElementById("charSearchOutput").innerText =
+            `Індекси: ${foundIndices.join(', ')}, Кількість: ${totalOccurrences}`;
+    }
+
+    function capitalizeFirstChar() {
+        const text = document.getElementById("capitalizeTextInput").value;
+        if (text) {
+            const capitalizedResult = text.charAt(0).toUpperCase() + text.slice(1);
+            document.getElementById("capitalizedTextOutput").innerText = capitalizedResult;
+        }
+    }
+
+    function countVowelLetters() {
+        const text = document.getElementById("vowelTextInput").value;
+        const vowels = 'аеєиіїоуюяАЕЄИЇОУЮЯaeiouyAEIOUY';
+        const totalVowels = Array.from(text).filter(letter => vowels.includes(letter)).length;
+        document.getElementById("vowelOutput").innerText = `Кількість голосних: ${totalVowels}`;
+    }
+
+    function detectSpam() {
+        const text = document.getElementById("spamTextInput").value;
+        const spamKeywords = ['безкоштовно', 'збільшення продажів', 'крипта', 'адріан','біо',];
+        const isSpamDetected = spamKeywords.some(keyword => text.includes(keyword));
+        document.getElementById("spamCheckOutput").innerText = `Спам: ${isSpamDetected}`;
+    }
+
+    function shortenString() {
+        const text = document.getElementById("truncateTextInput").value;
+        const maxLength = parseInt(document.getElementById("truncateMaxLengthInput").value, 10);
+        let shortenedResult;
+
+        if (text.length > maxLength) {
+            shortenedResult = text.slice(0, maxLength - 3) + '...';
+        } else {
+            shortenedResult = text;
+        }
+
+        document.getElementById("shortenedOutput").innerText = shortenedResult;
+    }
+</script>
+
+</body>
+</html>

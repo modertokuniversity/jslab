@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Форма з перевіркою</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            width: 400px;
+            padding: 20px;
+            background-color: #e6f7ff;
+            border: 1px solid #99ccff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #0073e6;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #004080;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #99ccff;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0073e6;
+            box-shadow: 0 0 5px rgba(0, 115, 230, 0.5);
+        }
+
+        input.valid {
+            border-color: #4caf50;
+        }
+
+        input.invalid {
+            border-color: #f44336;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 12px;
+            display: none;
+        }
+
+        .valid-mark {
+            display: none;
+            color: #4caf50;
+        }
+
+        .valid-mark.visible {
+            display: inline;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Заповніть форму</h2>
+
+    <div class="form-group">
+        <label for="emailInput">E-mail</label>
+        <input type="text" id="emailInput" placeholder="example@pnu.edu.ua">
+        <span class="valid-mark">✔</span>
+        <div class="error-message">Введіть правильний e-mail (example@pnu.edu.ua)</div>
+    </div>
+
+    <div class="form-group">
+        <label for="fullNameInput">Ім’я та прізвище</label>
+        <input type="text" id="fullNameInput" placeholder="Ім’я Прізвище">
+        <span class="valid-mark">✔</span>
+        <div class="error-message">Ім'я повинно починатися з великої, прізвище — всі великі літери.</div>
+    </div>
+
+    <div class="form-group">
+        <label for="usernameInput">Логін</label>
+        <input type="text" id="usernameInput" placeholder="login123">
+        <span class="valid-mark">✔</span>
+        <div class="error-message">Логін повинен містити лише латинські літери та цифри.</div>
+    </div>
+
+    <div class="form-group">
+        <label for="passwordInput">Пароль</label>
+        <input type="password" id="passwordInput" placeholder="********">
+        <span class="valid-mark">✔</span>
+        <div class="error-message">Пароль має містити мінімум 8 символів, включаючи букви, цифри та спецсимволи.</div>
+    </div>
+
+    <div class="form-group">
+        <label for="postalCodeInput">Поштовий індекс</label>
+        <input type="text" id="postalCodeInput" placeholder="12345">
+        <span class="valid-mark">✔</span>
+        <div class="error-message">Поштовий індекс повинен містити 5 цифр.</div>
+    </div>
+
+    <button onclick="checkForm()">Перевірити</button>
+</div>
+
+<script>
+    function checkForm() {
+        validateField('emailInput', /^[a-z0-9._%+-]+@pnu\.edu\.ua$/i, "Введіть правильний e-mail (example@pnu.edu.ua)");
+        validateField('fullNameInput', /^[А-ЯA-Z][а-яa-z]+ [А-ЯA-Z]+$/, "Ім'я з великої, прізвище — всі великі.");
+        validateField('usernameInput', /^[a-zA-Z0-9]+$/, "Логін повинен містити лише латинські літери.");
+        validateField('passwordInput', /^(?=.*[A-Za-z])(?=.*\d)(?=.*[_\-!@#$%^&*])[A-Za-z\d_\-!@#$%^&*]{8,}$/, "Пароль має містити мінімум 8 символів.");
+        validateField('postalCodeInput', /^\d{5}$/, "Поштовий індекс повинен містити 5 цифр.");
+    }
+
+    function validateField(inputId, regex, errorMessage) {
+        const input = document.getElementById(inputId);
+        const validMark = input.nextElementSibling;
+        const errorDiv = input.parentElement.querySelector('.error-message');
+
+        if (regex.test(input.value)) {
+            input.classList.remove('invalid');
+            input.classList.add('valid');
+            errorDiv.classList.remove('visible');
+            validMark.classList.add('visible');
+        } else {
+            input.classList.remove('valid');
+            input.classList.add('invalid');
+            errorDiv.textContent = errorMessage;
+            errorDiv.classList.add('visible');
+            validMark.classList.remove('visible');
+        }
+    }
+</script>
+
+</body>
+</html>

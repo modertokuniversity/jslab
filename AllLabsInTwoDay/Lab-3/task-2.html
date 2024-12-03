@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Екранна клавіатура</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .keyboard {
+            margin: 20px 0;
+        }
+        .keyboard-row {
+            margin-bottom: 10px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 5px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        #clear-button {
+            margin-top: 2px;
+            padding: 20px 90px;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2>Екранна клавіатура</h2>
+
+<textarea id="output-field" readonly></textarea>
+
+<div class="keyboard">
+    <div class="keyboard-row" id="digit-row"></div>
+
+    <div class="keyboard-row" id="letter-row-first"></div>
+    <div class="keyboard-row" id="letter-row-second"></div>
+    <div class="keyboard-row" id="letter-row-third"></div>
+</div>
+
+<button id="clear-button">Очистити поле</button>
+
+<script>
+    let digitKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    let letterKeys = ['а', 'б', 'в', 'г', 'д', 'е', 'є', 'ж', 'з', 'и', 'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я'];
+
+    let outputField = document.getElementById('output-field');
+
+    function generateButton(content) {
+        let button = document.createElement('button');
+        button.innerText = content;
+        button.onclick = function() {
+            outputField.value += content;
+        };
+        return button;
+    }
+
+    let digitRow = document.getElementById('digit-row');
+    digitKeys.forEach(function(digit) {
+        digitRow.appendChild(generateButton(digit));
+    });
+
+    let letterRowFirst = document.getElementById('letter-row-first');
+    let letterRowSecond = document.getElementById('letter-row-second');
+    let letterRowThird = document.getElementById('letter-row-third');
+
+    letterKeys.slice(0, 9).forEach(function(letter) {
+        letterRowFirst.appendChild(generateButton(letter));
+    });
+
+    letterKeys.slice(9, 19).forEach(function(letter) {
+        letterRowSecond.appendChild(generateButton(letter));
+    });
+
+    letterKeys.slice(19).forEach(function(letter) {
+        letterRowThird.appendChild(generateButton(letter));
+    });
+
+    document.getElementById('clear-button').onclick = function() {
+        outputField.value = '';
+    };
+</script>
+</body>
+<br><b><br><br><br><br><br></b>
+<a href="index-lab-3.html">Назад</a>
+</html>

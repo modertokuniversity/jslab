@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Завдання з часом і датою</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f8ff;
+      color: #003366;
+    }
+
+    h1, h2 {
+      color: #005bb5;
+    }
+
+    input {
+      margin: 10px 0;
+      padding: 5px;
+      border: 1px solid #99ccff;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 200px;
+    }
+
+    button {
+      background-color: #005bb5;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #004080;
+    }
+
+    .output {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #99ccff;
+      background-color: #e6f2ff;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Завдання з часом і датою</h1>
+
+<!-- Завдання 2.1 -->
+<h2>2.1. Показати поточну дату і час</h2>
+<button onclick="показатиПоточнуДату()">Показати</button>
+<div id="вивідЗавдання2_1" class="output"></div>
+
+<!-- Завдання 2.2 -->
+<h2>2.2. День і номер дня в тижні</h2>
+<button onclick="показатиІнформаціюДня()">Показати</button>
+<div id="вивідЗавдання2_2" class="output"></div>
+
+<!-- Завдання 2.3 -->
+<h2>2.3. Обчислення дати на N днів назад або вперед</h2>
+<label for="ввідДнів">Кількість днів:</label>
+<input type="number" id="ввідДнів">
+<button onclick="розрахуватиДату()">Обчислити</button>
+<div id="вивідЗавдання2_3" class="output"></div>
+
+<!-- Завдання 2.4 -->
+<h2>2.4. Визначення останнього дня місяця</h2>
+<label for="ввідРоку">Рік:</label>
+<input type="number" id="ввідРоку" placeholder="Наприклад, 2024">
+<label for="ввідМісяця">Місяць (1-12):</label>
+<input type="number" id="ввідМісяця" placeholder="1-12">
+<button onclick="отриматиОстаннійДень()">Визначити</button>
+<div id="вивідЗавдання2_4" class="output"></div>
+
+<!-- Завдання 2.5 -->
+<h2>2.5. Секунди від початку дня і до кінця</h2>
+<button onclick="отриматиСекунди()">Обчислити</button>
+<div id="вивідЗавдання2_5" class="output"></div>
+
+<!-- Завдання 2.6 -->
+<h2>2.6. Формування дати з текстового вводу</h2>
+<label for="ввідДати">Дата і час (формат "дд.мм.рррр год:хв"):</label>
+<input type="text" id="ввідДати" placeholder="Наприклад, 01.12.2024 14:30">
+<button onclick="створитиДату()">Виконати</button>
+<div id="вивідЗавдання2_6" class="output"></div>
+
+<script>
+  function показатиПоточнуДату() {
+    const зараз = new Date();
+    const дні = ['неділя', 'понеділок', 'вівторок', 'середа', 'четвер', 'п’ятниця', 'субота'];
+    const місяці = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
+
+    const деньТижня = дні[зараз.getDay()];
+    const день = зараз.getDate();
+    const місяць = місяці[зараз.getMonth()];
+    const рік = зараз.getFullYear();
+    const час = зараз.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+
+    document.getElementById("вивідЗавдання2_1").textContent = `Сьогодні: ${день} ${місяць} ${рік}\nДень тижня: ${деньТижня}\nЧас: ${час}`;
+  }
+
+  function показатиІнформаціюДня() {
+    const зараз = new Date();
+    const дні = ['неділя', 'понеділок', 'вівторок', 'середа', 'четвер', 'п’ятниця', 'субота'];
+    const номерДня = (зараз.getDay() === 0) ? 7 : зараз.getDay();
+    const назваДня = дні[зараз.getDay()];
+
+    document.getElementById("вивідЗавдання2_2").textContent = `День: ${назваДня}, Номер дня: ${номерДня}`;
+  }
+
+  function розрахуватиДату() {
+    const дні = parseInt(document.getElementById("ввідДнів").value);
+    const зараз = new Date();
+    зараз.setDate(зараз.getDate() + дні);
+    document.getElementById("вивідЗавдання2_3").textContent = `Розрахована дата: ${зараз.toLocaleDateString('uk-UA')}`;
+  }
+
+  function отриматиОстаннійДень() {
+    const рік = parseInt(document.getElementById("ввідРоку").value);
+    const місяць = parseInt(document.getElementById("ввідМісяця").value);
+    const останнійДень = new Date(рік, місяць, 0).getDate();
+
+    document.getElementById("вивідЗавдання2_4").textContent = `Останній день місяця: ${останнійДень}`;
+  }
+
+  function отриматиСекунди() {
+    const зараз = new Date();
+    const початокДня = new Date(зараз.getFullYear(), зараз.getMonth(), зараз.getDate());
+    const кінецьДня = new Date(зараз.getFullYear(), зараз.getMonth(), зараз.getDate() + 1);
+
+    const секундПройшло = Math.floor((зараз - початокДня) / 1000);
+    const секундДоКінця = Math.floor((кінецьДня - зараз) / 1000);
+
+    document.getElementById("вивідЗавдання2_5").textContent = `Пройшло секунд: ${секундПройшло}, Залишилося секунд: ${секундДоКінця}`;
+  }
+
+  function створитиДату() {
+    const ввід = document.getElementById("ввідДати").value;
+    const [датаЧастина, часЧастина] = ввід.split(' ');
+    const [день, місяць, рік] = датаЧастина.split('.').map(Number);
+    const [години, хвилини] = часЧастина.split(':').map(Number);
+
+    const введенаДата = new Date(рік, місяць - 1, день, години, хвилини);
+    const зараз = new Date();
+    const різницяСекунд = Math.floor((зараз - введенаДата) / 1000);
+
+    document.getElementById("вивідЗавдання2_6").textContent = різницяСекунд > 0 
+      ? `Дата була ${різницяСекунд} сек. тому` 
+      : `Вказана дата: ${датаЧастина} ${часЧастина}`;
+  }
+</script>
+
+</body>
+</html>

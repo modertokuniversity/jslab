@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Маніпуляції з часом</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f8ff;
+      color: #004080;
+    }
+
+    h1, h2, h3 {
+      color: #0073e6;
+    }
+
+    input {
+      margin: 10px 0;
+      padding: 5px;
+      border: 1px solid #99ccff;
+      border-radius: 5px;
+      font-size: 14px;
+      width: 100px;
+    }
+
+    button {
+      background-color: #0073e6;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    div {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Маніпуляції з часом</h1>
+
+<div>
+  <h2>Поточний час: <span id="часВиведення">00:00:00</span></h2>
+</div>
+
+<div>
+  <h3>Змінити час</h3>
+
+  <label for="секундиВвід">Секунди:</label>
+  <input type="number" id="секундиВвід">
+  <button onclick="змінитиСекунди()">Змінити секунди</button><br>
+
+  <label for="хвилиниВвід">Хвилини:</label>
+  <input type="number" id="хвилиниВвід">
+  <button onclick="змінитиХвилини()">Змінити хвилини</button><br>
+
+  <label for="годиниВвід">Години:</label>
+  <input type="number" id="годиниВвід">
+  <button onclick="змінитиГодини()">Змінити години</button>
+</div>
+
+<script>
+  const час = {
+    години: 0,
+    хвилини: 0,
+    секунди: 0
+  };
+
+  function форматуватиЧас() {
+    const годиниФормат = час.години.toString().padStart(2, '0');
+    const хвилиниФормат = час.хвилини.toString().padStart(2, '0');
+    const секундиФормат = час.секунди.toString().padStart(2, '0');
+    return `${годиниФормат}:${хвилиниФормат}:${секундиФормат}`;
+  }
+
+  function оновитиВиведенняЧасу() {
+    document.getElementById("часВиведення").textContent = форматуватиЧас();
+  }
+
+  function змінитиСекунди() {
+    const секундиДодати = parseInt(document.getElementById("секундиВвід").value) || 0;
+    час.секунди += секундиДодати;
+
+    if (час.секунди >= 60) {
+      час.хвилини += Math.floor(час.секунди / 60);
+      час.секунди = час.секунди % 60;
+    }
+
+    if (час.хвилини >= 60) {
+      час.години += Math.floor(час.хвилини / 60);
+      час.хвилини = час.хвилини % 60;
+    }
+
+    оновитиВиведенняЧасу();
+  }
+
+  function змінитиХвилини() {
+    const хвилиниДодати = parseInt(document.getElementById("хвилиниВвід").value) || 0;
+    час.хвилини += хвилиниДодати;
+
+    if (час.хвилини >= 60) {
+      час.години += Math.floor(час.хвилини / 60);
+      час.хвилини = час.хвилини % 60;
+    }
+
+    оновитиВиведенняЧасу();
+  }
+
+  function змінитиГодини() {
+    const годиниДодати = parseInt(document.getElementById("годиниВвід").value) || 0;
+    час.години += годиниДодати;
+
+    оновитиВиведенняЧасу();
+  }
+
+  оновитиВиведенняЧасу();
+</script>
+
+</body>
+</html>

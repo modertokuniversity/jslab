@@ -1,0 +1,153 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      color: #004080;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #0073e6;
+    }
+
+    div {
+      margin: 20px auto;
+      padding: 20px;
+      width: 60%;
+      background-color: #e6f7ff;
+      border: 1px solid #99ccff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid #99ccff;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #0073e6;
+      box-shadow: 0 0 5px rgba(0, 115, 230, 0.5);
+    }
+
+    button {
+      background-color: #0073e6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    p {
+      color: #004080;
+      font-weight: bold;
+    }
+
+    .clicked {
+      border: 2px solid red;
+      background-color: yellow;
+    }
+
+    .image-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 5px;
+      border-radius: 3px;
+      display: none;
+      font-size: 12px;
+    }
+  </style>
+  <script>
+    $(document).ready(function () {
+      // Спеціальний стиль для div на кліки
+      $("#specialDiv").bind("click", function () {
+        $(this).addClass("clicked");
+      }).bind("dblclick", function () {
+        $(this).removeClass("clicked");
+      });
+
+      // Кнопки з різними кліками
+      $("#singleClickBtn").click(function () {
+        alert("Одинарний клік");
+      });
+      $("#doubleClickBtn").dblclick(function () {
+        alert("Подвійний клік");
+      });
+
+      // Зображення: показати/приховати
+      $("#showImage").click(function () {
+        $("#image").fadeIn();
+      });
+      $("#hideImage").click(function () {
+        $("#image").fadeOut();
+      });
+      $("#image").hover(
+        function () {
+          $(".tooltip").fadeIn();
+        },
+        function () {
+          $(".tooltip").fadeOut();
+        }
+      );
+
+      // Форма для перевірки
+      $("form").submit(function () {
+        if ($("input:first").val() === "correct") {
+          $("span").text("Успішно!").show();
+          return true;
+        }
+        $("span").text("Неправильно!").show().fadeOut(1000);
+        return false;
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Демонстрація jQuery</h1>
+  <div id="specialDiv">Клікніть сюди</div>
+  <br />
+  <button id="singleClickBtn">Одинарний клік</button>
+  <button id="doubleClickBtn">Подвійний клік</button>
+  <br /><br />
+  <a href="#" id="showImage">Показати зображення</a>
+  <a href="#" id="hideImage" style="margin-left: 20px;">Сховати зображення</a>
+  <div class="image-container">
+    <img id="image" src="photo_2024-12-02_22-53-18.jpg" alt="Демо" style="display: none;" />
+    <span class="tooltip">Це зображення</span>
+  </div>
+  <br /><br />
+  <p>Введіть в текстове поле слово 'correct'.</p>
+  <form action="javascript:alert('Успішно!');">
+    <div>
+      <input type="text" />
+      <input type="submit" />
+    </div>
+  </form>
+  <span></span>
+</body>
+</html>

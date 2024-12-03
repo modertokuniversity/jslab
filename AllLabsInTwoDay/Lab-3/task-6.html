@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Ієрархічне дерево</title>
+  <style>
+    ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+    .toggle {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+  </style>
+  <script>
+    function toggleVisibility(event) {
+      const childList = event.target.nextElementSibling;
+      if (childList.style.display === "none" || childList.style.display === "") {
+        childList.style.display = "block";
+      } else {
+        childList.style.display = "none";
+      }
+    }
+
+    window.onload = function() {
+      const toggles = document.querySelectorAll('.toggle');
+      toggles.forEach(toggle => {
+        const childList = toggle.nextElementSibling;
+        if (childList) {
+          childList.style.display = "none"; 
+          toggle.onclick = toggleVisibility; 
+        }
+      });
+    };
+  </script>
+</head>
+<body>
+<h1>Ієрархія фруктів та овочів</h1>
+<ul>
+  <li class="toggle">Фрукти
+    <ul>
+      <li>Яблуко</li>
+      <li>Ананас</li>
+      <li>Абрикос</li>
+      <li>Груша</li>
+      <li>Лимон</li>
+    </ul>
+  </li>
+  <li class="toggle">Овочі
+    <ul>
+      <li>Картопля</li>
+      <li>Буряк</li>
+      <li>Морква</li>
+      <li>Груша</li>
+    </ul>
+  </li>
+</ul>
+</body>
+</html>

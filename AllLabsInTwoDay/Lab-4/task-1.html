@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестування: Чому важливо вивчати Arduino?</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Тест: Чому важливо вивчати Arduino в університеті?</h1>
+<form id="testForm">
+    <h3>1. Який основний принцип роботи Arduino?</h3>
+    <input type="radio" name="q1" value="0"> Використання тільки аналогових сигналів<br>
+    <input type="radio" name="q1" value="1"> Програмування мікроконтролерів<br>
+    <input type="radio" name="q1" value="0"> Робота виключно з графічними інтерфейсами<br>
+    <input type="radio" name="q1" value="0"> Використання штучного інтелекту<br>
+
+    <h3>2. Чому Arduino корисний для студентів?</h3>
+    <input type="radio" name="q2" value="0"> Дає змогу обійтися без знань електроніки<br>
+    <input type="radio" name="q2" value="1"> Навчає основам програмування та схемотехніки<br>
+    <input type="radio" name="q2" value="0"> Дозволяє створювати тільки побутові пристрої<br>
+    <input type="radio" name="q2" value="0"> Використовується тільки в іграх<br>
+
+    <h3>3. Які навички розвиває вивчення Arduino?</h3>
+    <input type="checkbox" name="q3" value="1"> Логічне мислення<br>
+    <input type="checkbox" name="q3" value="0"> Пасивне навчання<br>
+    <input type="checkbox" name="q3" value="1"> Вирішення технічних завдань<br>
+    <input type="checkbox" name="q3" value="0"> Розслаблення на парах<br>
+
+    <h3>4. У яких проєктах найчастіше використовується Arduino?</h3>
+    <input type="checkbox" name="q4" value="1"> Розумні будинки<br>
+    <input type="checkbox" name="q4" value="1"> Робототехніка<br>
+    <input type="checkbox" name="q4" value="0"> Написання есе<br>
+    <input type="checkbox" name="q4" value="0"> Читання літератури<br>
+
+    <h3>5. Виберіть правильний варіант:</h3>
+    <select name="q5">
+        <option value="0">Arduino є застарілою технологією</option>
+        <option value="1">Arduino підходить для створення прототипів</option>
+        <option value="0">Arduino працює тільки з професійним обладнанням</option>
+        <option value="0">Arduino використовується лише інженерами</option>
+    </select><br><br>
+
+    <h3>6. Які елементи зазвичай підключають до Arduino?</h3>
+    <select name="q6" multiple>
+        <option value="1">Датчики</option>
+        <option value="0">Кавоварки</option>
+        <option value="1">Світлодіоди</option>
+        <option value="0">Телевізори</option>
+    </select><br><br>
+
+    <h3>7. Напишіть своє бачення, чому Arduino є важливим:</h3>
+    <input type="text" name="q7" placeholder="Ваш текст тут"><br><br>
+
+    <input type="button" value="Завершити тестування" onclick="processResults()">
+</form>
+
+<div id="results"></div>
+
+<script>
+    function processResults() {
+        let totalScore = 0;
+        let resultsHTML = "<table><tr><th>Запитання</th><th>Ваша відповідь</th><th>Отримані бали</th></tr>";
+
+        let q1 = document.querySelector('input[name="q1"]:checked');
+        if (q1) {
+            let score = parseInt(q1.value);
+            totalScore += score;
+            resultsHTML += `<tr><td>1. Принцип роботи Arduino</td><td>${q1.nextSibling.textContent.trim()}</td><td>${score}</td></tr>`;
+        }
+
+        let q2 = document.querySelector('input[name="q2"]:checked');
+        if (q2) {
+            let score = parseInt(q2.value);
+            totalScore += score;
+            resultsHTML += `<tr><td>2. Користь для студентів</td><td>${q2.nextSibling.textContent.trim()}</td><td>${score}</td></tr>`;
+        }
+
+        let q3score = 0;
+        let q3answers = [];
+        let q3checkboxes = document.querySelectorAll('input[name="q3"]:checked');
+        if (q3checkboxes.length > 0) {
+            q3checkboxes.forEach(checkbox => {
+                q3answers.push(checkbox.nextSibling.textContent.trim());
+                q3score += parseInt(checkbox.value);
+            });
+        }
+        totalScore += q3score;
+        resultsHTML += `<tr><td>3. Навички</td><td>${q3answers.join(', ')}</td><td>${q3score}</td></tr>`;
+
+        let q4score = 0;
+        let q4answers = [];
+        let q4checkboxes = document.querySelectorAll('input[name="q4"]:checked');
+        if (q4checkboxes.length > 0) {
+            q4checkboxes.forEach(checkbox => {
+                q4answers.push(checkbox.nextSibling.textContent.trim());
+                q4score += parseInt(checkbox.value);
+            });
+        }
+        totalScore += q4score;
+        resultsHTML += `<tr><td>4. Проєкти</td><td>${q4answers.join(', ')}</td><td>${q4score}</td></tr>`;
+
+        let q5 = document.querySelector('select[name="q5"]');
+        let q5score = parseInt(q5.value);
+        totalScore += q5score;
+        resultsHTML += `<tr><td>5. Прототипування</td><td>${q5.options[q5.selectedIndex].text}</td><td>${q5score}</td></tr>`;
+
+        let q6score = 0;
+        let q6answers = [];
+        let q6selected = document.querySelectorAll('select[name="q6"] option:checked');
+        if (q6selected.length > 0) {
+            q6selected.forEach(option => {
+                q6answers.push(option.textContent.trim());
+                q6score += parseInt(option.value);
+            });
+        }
+        totalScore += q6score;
+        resultsHTML += `<tr><td>6. Елементи</td><td>${q6answers.join(', ')}</td><td>${q6score}</td></tr>`;
+
+        let q7 = document.querySelector('input[name="q7"]').value;
+        resultsHTML += `<tr><td>7. Власне бачення</td><td>${q7}</td><td>-</td></tr>`;
+
+        resultsHTML += `<tr><td colspan="2">Загальний бал</td><td>${totalScore}</td></tr>`;
+        resultsHTML += "</table>";
+
+        document.getElementById("results").innerHTML = resultsHTML;
+    }
+</script>
+</body>
+</html>

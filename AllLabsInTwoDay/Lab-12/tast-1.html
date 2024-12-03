@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демонстрація jQuery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #cce7ff, #e6f7ff);
+            color: #004080;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            margin: 0;
+            color: #0073e6;
+        }
+
+        button {
+            background-color: #0073e6;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 0;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #0073e6;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+
+        .output {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e6f7ff;
+            border: 1px dashed #0073e6;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #005bb5;
+        }
+
+        footer {
+            background-color: #004080;
+            color: white;
+            padding: 10px 0;
+            width: 100%;
+            text-align: center;
+            margin-top: auto;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<header>
+    <h1>Демонстрація jQuery</h1>
+</header>
+<div class="container">
+    <!-- Task 1 -->
+    <div class="card">
+        <h2>Демонстрація .clearQueue() та інших методів</h2>
+        <div class="box" id="box"></div>
+        <button id="start-queue-btn">Запустити анімацію</button>
+        <button id="clear-queue-btn">Зупинити чергу</button>
+        <button id="slide-up-btn">Згорнути</button>
+        <button id="reset-btn">Скинути</button>
+        <div class="output" id="output"></div>
+    </div>
+</div>
+<footer>
+    <p>© 2024 Демонстрація jQuery</p>
+</footer>
+
+<script>
+    $(document).ready(function () {
+        const box = $('#box');
+
+        // Запускає чергу анімації
+        $('#start-queue-btn').click(() => {
+            box.queue(function (next) {
+                $(this).css('background-color', 'red');
+                next();
+            })
+                .delay(500)
+                .queue(function (next) {
+                    $(this).css('background-color', 'yellow');
+                    next();
+                })
+                .delay(500)
+                .queue(function (next) {
+                    $(this).css('background-color', 'green');
+                    next();
+                });
+        });
+
+        // Зупиняє і очищає чергу анімації
+        $('#clear-queue-btn').click(() => {
+            box.clearQueue();
+            $('#output').text('Черга очищена.');
+        });
+
+        // Згортає елемент
+        $('#slide-up-btn').click(() => {
+            box.slideUp(500, () => {
+                $('#output').text('Елемент згорнуто.');
+            });
+        });
+
+        // Скидає елемент до початкового стану
+        $('#reset-btn').click(() => {
+            box.stop(true, true).css({
+                display: 'block',
+                backgroundColor: '#0073e6'
+            });
+            $('#output').text('Елемент скинуто.');
+        });
+    });
+</script>
+</body>
+</html>

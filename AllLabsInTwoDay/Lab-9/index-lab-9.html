@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Анімації та інтерфейс</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            color: #004080;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0073e6;
+        }
+
+        .animate-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .box {
+            width: 50px;
+            height: 50px;
+            background-color: #4caf50;
+            position: relative;
+        }
+
+        .logo-container {
+            width: 150px;
+            height: 150px;
+            margin: 20px;
+            border: 3px solid #99ccff;
+            border-radius: 50%;
+            transition: all 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: #e6f7ff;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: all 1s ease;
+        }
+
+        .logo-container.animation1 {
+            transform: scale(1.5) rotate(180deg);
+            border-color: #ff5722;
+        }
+
+        .logo-container.animation2 {
+            transform: scale(1.2) rotate(360deg);
+            border-color: #4caf50;
+            background-color: #e0ffe0;
+        }
+
+        .logo-container.animation3 {
+            transform: translateY(-20px) scale(1.3);
+            background-color: #ffe6e6;
+            border-color: #e60000;
+        }
+
+        .text-container {
+            display: none;
+            font-size: 18px;
+            color: #333;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .text-container.active {
+            display: block;
+            opacity: 1;
+        }
+
+        button {
+            background-color: #0073e6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const animationBox = document.getElementById('animationBox');
+            const intervalBtn = document.getElementById('intervalAnimation');
+            const rafBtn = document.getElementById('rafAnimation');
+            const bounceBtn = document.getElementById('bounceAnimation');
+            const elasticBtn = document.getElementById('elasticAnimation');
+            const easeInOutBtn = document.getElementById('easeInOutAnimation');
+
+            const logoContainer = document.getElementById('logoContainer');
+            const textContainer = document.getElementById('textContainer');
+            const animateBtn1 = document.getElementById('animateLogo1');
+            const animateBtn2 = document.getElementById('animateLogo2');
+            const animateBtn3 = document.getElementById('animateLogo3');
+
+            function applyLogoAnimation(animationClass) {
+                logoContainer.className = 'logo-container';
+                logoContainer.classList.add(animationClass);
+                textContainer.classList.toggle('active');
+            }
+
+            animateBtn1.addEventListener('click', () => applyLogoAnimation('animation1'));
+            animateBtn2.addEventListener('click', () => applyLogoAnimation('animation2'));
+            animateBtn3.addEventListener('click', () => applyLogoAnimation('animation3'));
+
+            function animateBox({ timing, draw, duration }) {
+                let start = performance.now();
+
+                requestAnimationFrame(function frame(time) {
+                    let timeFraction = (time - start) / duration;
+                    if (timeFraction > 1) timeFraction = 1;
+
+                    let progress = timing(timeFraction);
+                    draw(progress);
+
+                    if (timeFraction < 1) {
+                        requestAnimationFrame(frame);
+                    }
+                });
+            }
+
+            function bounce(timeFraction) {
+                for (let a = 0, b = 1; 1; a += b, b /= 2) {
+                    if (timeFraction >= (7 - 4 * a) / 11) {
+                        return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2);
+                    }
+                }
+            }
+
+            function elastic(x) {
+                return function (timeFraction) {
+                    return Math.pow(2, 10 * (timeFraction - 1)) * Math.cos(20 * Math.PI * x / 3 * timeFraction);
+                };
+            }
+
+            function makeEaseInOut(timing) {
+                return function (timeFraction) {
+                    if (timeFraction < 0.5)
+                        return timing(2 * timeFraction) / 2;
+                    else
+                        return (2 - timing(2 * (1 - timeFraction))) / 2;
+                };
+            }
+
+            intervalBtn.addEventListener('click', () => {
+                let start = Date.now();
+                let timer = setInterval(() => {
+                    let timePassed = Date.now() - start;
+                    if (timePassed >= 2000) {
+                        clearInterval(timer);
+                        return;
+                    }
+                    animationBox.style.left = timePassed / 5 + 'px';
+                }, 20);
+            });
+
+            rafBtn.addEventListener('click', () => {
+                let start = performance.now();
+                function animate(time) {
+                    let timeFraction = (time - start) / 2000;
+                    if (timeFraction > 1) timeFraction = 1;
+                    animationBox.style.top = timeFraction * 100 + 'px';
+                    if (timeFraction < 1) {
+                        requestAnimationFrame(animate);
+                    }
+                }
+                requestAnimationFrame(animate);
+            });
+
+            bounceBtn.addEventListener('click', () => {
+                animateBox({
+                    duration: 1000,
+                    timing: bounce,
+                    draw(progress) {
+                        animationBox.style.top = (1 - progress) * 100 + 'px';
+                    }
+                });
+            });
+
+            elasticBtn.addEventListener('click', () => {
+                animateBox({
+                    duration: 1000,
+                    timing: elastic(1.5),
+                    draw(progress) {
+                        animationBox.style.top = (1 - progress) * 100 + 'px';
+                    }
+                });
+            });
+
+            easeInOutBtn.addEventListener('click', () => {
+                animateBox({
+                    duration: 1000,
+                    timing: makeEaseInOut(bounce),
+                    draw(progress) {
+                        animationBox.style.left = progress * 200 + 'px';
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Анімації та інтерфейс</h1>
+    <div class="animate-container">
+        <button id="rafAnimation">Анімація через requestAnimationFrame</button>
+        <button id="easeInOutAnimation">Анімація EaseInOut</button>
+        <button id="intervalAnimation">Інтервальна анімація</button>
+        <button id="elasticAnimation">Еластична анімація</button>
+        <button id="bounceAnimation">Пружна анімація</button>
+    </div>
+    <div class="box" id="animationBox"></div>
+    <h1>Анімація логотипа</h1>
+    <div class="logo-container" id="logoContainer">
+        <img src="emblema_fakultetu_blue_small.jpg" alt="Логотип">
+    </div>
+    <div class="text-container" id="textContainer">
+        Анімація логотипа спеціальності.
+    </div>
+    <div class="animate-container">
+        <button id="animateLogo1">Анімація 1</button>
+        <button id="animateLogo2">Анімація 2</button>
+        <button id="animateLogo3">Анімація 3</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Завдання 3</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      color: #004080;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #0073e6;
+    }
+
+    div {
+      margin: 20px auto;
+      padding: 20px;
+      width: 60%;
+      background-color: #e6f7ff;
+      border: 1px solid #99ccff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    input, textarea {
+      width: 90%;
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid #99ccff;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #0073e6;
+      box-shadow: 0 0 5px rgba(0, 115, 230, 0.5);
+    }
+
+    button {
+      background-color: #0073e6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    p {
+      color: #004080;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Завдання 3</h1>
+
+<div>
+  <h2>3.1. Перетворення з Snake case у Camel case</h2>
+  <input type="text" id="snakeCaseInput" placeholder="Введіть Snake case (напр. my_variable)">
+  <button onclick="convertToCamelCase()">Перетворити</button>
+  <p id="camelCaseOutput"></p>
+</div>
+
+<div>
+  <h2>3.2. Перетворення з Camel case у Snake case</h2>
+  <input type="text" id="camelCaseInput" placeholder="Введіть Camel case (напр. myVariable)">
+  <button onclick="convertToSnakeCase()">Перетворити</button>
+  <p id="snakeCaseOutput"></p>
+</div>
+
+<div>
+  <h2>3.3. Заміна дат формату yyyy/mm/dd на dd.mm.yyyy</h2>
+  <textarea id="dateInput" placeholder="Введіть текст з датами" rows="5" cols="40"></textarea><br>
+  <button onclick="convertDates()">Змінити дати</button>
+  <p id="formattedDateOutput"></p>
+</div>
+
+<script>
+  function convertToCamelCase() {
+    const snakeCaseValue = document.getElementById("snakeCaseInput").value;
+    const camelCaseResult = snakeCaseValue.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+    document.getElementById("camelCaseOutput").innerText = `Результат: ${camelCaseResult}`;
+  }
+
+  function convertToSnakeCase() {
+    const camelCaseValue = document.getElementById("camelCaseInput").value;
+    const snakeCaseResult = camelCaseValue.replace(/([A-Z])/g, '_$1').toLowerCase();
+    document.getElementById("snakeCaseOutput").innerText = `Результат: ${snakeCaseResult}`;
+  }
+
+  function convertDates() {
+    const dateText = document.getElementById("dateInput").value;
+    const formattedDates = dateText.replace(/(\d{4})\/(\d{2})\/(\d{2})/g, '$3.$2.$1');
+    document.getElementById("formattedDateOutput").innerText = `Результат: ${formattedDates}`;
+  }
+</script>
+
+</body>
+</html>

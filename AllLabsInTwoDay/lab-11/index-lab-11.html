@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Демонстрація jQuery</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background: linear-gradient(to bottom, #cce7ff, #e6f7ff);
+			color: #004080;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			min-height: 100vh;
+		}
+
+		header {
+			background-color: #004080;
+			color: white;
+			width: 100%;
+			text-align: center;
+			padding: 20px 0;
+		}
+
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			max-width: 1200px;
+			margin: 20px auto;
+			justify-content: center;
+		}
+
+		.card {
+			background: white;
+			border-radius: 10px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+			width: 300px;
+			text-align: center;
+		}
+
+		h1, h2 {
+			margin: 0;
+			color: #0073e6;
+		}
+
+		button {
+			background-color: #0073e6;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 14px;
+			margin: 5px 0;
+			transition: transform 0.2s, background-color 0.3s;
+		}
+
+		button:hover {
+			background-color: #005bb5;
+			transform: scale(1.05);
+		}
+
+		input {
+			width: calc(100% - 20px);
+			padding: 10px;
+			border: 1px solid #99ccff;
+			border-radius: 5px;
+			margin: 10px 0;
+		}
+
+		.output {
+			margin-top: 15px;
+			padding: 10px;
+			background: #e6f7ff;
+			border: 1px dashed #0073e6;
+			border-radius: 5px;
+			font-size: 14px;
+			color: #005bb5;
+		}
+
+		footer {
+			background-color: #004080;
+			color: white;
+			padding: 10px 0;
+			width: 100%;
+			text-align: center;
+			margin-top: auto;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<header>
+	<h1>Демонстрація jQuery</h1>
+</header>
+<div class="container">
+	<!-- Task 1 -->
+	<div class="card">
+		<h2>Завдання 1</h2>
+		<p id="paragraph-text">Початковий текст</p>
+		<button id="update-html-btn">Змінити текст</button>
+		<button id="apply-css-btn">Змінити стиль</button>
+		<input type="text" id="input-field" value="Введіть текст">
+		<button id="get-value-btn">Отримати значення</button>
+		<div class="output" id="task1-output"></div>
+	</div>
+
+	<!-- Task 2 -->
+	<div class="card">
+		<h2>Завдання 2</h2>
+		<div id="demo-task2">
+			<div id="element-one">Елемент 1</div>
+			<div id="element-two">Елемент 2</div>
+			<div id="element-three">Елемент 3</div>
+		</div>
+		<button id="insert-after-btn">.insertAfter()</button>
+		<button id="detach-btn">.detach()</button>
+		<button id="width-btn">.width() із функцією</button>
+		<button id="offset-btn">.offset()</button>
+	</div>
+
+	<!-- Task 3 -->
+	<div class="card">
+		<h2>Завдання 3</h2>
+		<ul id="demo-task3">
+			<li>Елемент 1</li>
+			<li>Елемент 2</li>
+			<li>Елемент 3</li>
+			<li>Елемент 4</li>
+			<li>Елемент 5</li>
+		</ul>
+		<button id="eq-btn">.eq()</button>
+		<button id="next-until-btn">.nextUntil()</button>
+		<button id="siblings-btn">.siblings()</button>
+		<button id="next-btn">.next()</button>
+		<button id="end-btn">.end()</button>
+	</div>
+
+	<!-- Task 4 -->
+	<div class="card">
+		<h2>Завдання 4</h2>
+		<ul>
+			<li>Елемент 1</li>
+			<li class="special">Елемент 2</li>
+			<li>Елемент 3</li>
+			<li>Елемент 4</li>
+			<li>Елемент 5</li>
+		</ul>
+		<button id="filter-class-btn">.filter() для класу</button>
+		<button id="filter-every-third-btn">.filter() кожен третій</button>
+	</div>
+
+	<!-- Task 5 -->
+	<div class="card">
+		<h2>Завдання 5</h2>
+		<button id="parse-html-btn">$.parseHTML()</button>
+		<div id="html-output" class="output">Вміст з'явиться тут...</div>
+	</div>
+</div>
+<footer>
+	<p>© 2024 Демонстрація jQuery</p>
+</footer>
+
+<script>
+	$(document).ready(function () {
+		// Task 1
+		$('#update-html-btn').click(() => $('#paragraph-text').html('<b>Новий текст</b>'));
+		$('#apply-css-btn').click(() => $('#paragraph-text').css('color', 'red'));
+		$('#get-value-btn').click(() => $('#task1-output').text($('#input-field').val()));
+
+		// Task 2
+		$('#insert-after-btn').click(() => $('<div>Новий Елемент</div>').insertAfter('#element-two'));
+		$('#detach-btn').click(() => $('#element-three').detach());
+		$('#width-btn').click(() => {
+			$('#element-two').width(function (index, width) {
+				return width + 50;
+			});
+		});
+		$('#offset-btn').click(() => alert(`Offset: ${JSON.stringify($('#element-one').offset())}`));
+
+		// Task 3
+		$('#eq-btn').click(() => alert($('li').eq(2).text()));
+		$('#next-until-btn').click(() => {
+			$('li:eq(1)').nextUntil('li:eq(4)').css('color', 'blue');
+		});
+		$('#siblings-btn').click(() => $('li:eq(2)').siblings().css('background-color', '#e6f7ff'));
+		$('#next-btn').click(() => alert($('li:eq(2)').next().text()));
+		$('#end-btn').click(() => $('li:eq(1)').next().end().css('font-weight', 'bold'));
+
+		// Task 4
+		$('#filter-class-btn').click(() => $('li').filter('.special').css('color', 'green'));
+		$('#filter-every-third-btn').click(() => $('li:nth-child(3n)').css('background-color', 'yellow'));
+
+		// Task 5
+		$('#parse-html-btn').click(() => {
+			const htmlString = '<p style="color: green;">Це новий HTML, створений через $.parseHTML()</p>';
+			const parsed = $.parseHTML(htmlString);
+			$('#html-output').html(parsed);
+		});
+	});
+</script>
+</body>
+</html>

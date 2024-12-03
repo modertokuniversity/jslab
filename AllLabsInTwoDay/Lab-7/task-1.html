@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            color: #004080;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #0073e6;
+        }
+
+        div {
+            margin: 20px auto;
+            padding: 20px;
+            width: 60%;
+            background-color: #e6f7ff;
+            border: 1px solid #99ccff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #99ccff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0073e6;
+            box-shadow: 0 0 5px rgba(0, 115, 230, 0.5);
+        }
+
+        button {
+            background-color: #0073e6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        p {
+            color: #004080;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Завдання 1</h1>
+
+<div>
+    <h2>1.1. Реверс чисел</h2>
+    <input type="text" id="numberSequenceInput" placeholder="Введіть числа через пробіл">
+    <button onclick="showReversedSequence()">Реверсувати</button>
+    <p id="reversedSequenceOutput"></p>
+</div>
+
+<div>
+    <h2>1.2. Прибрати нулі з масиву</h2>
+    <input type="text" id="numberArrayInput" placeholder="Введіть числа через пробіл">
+    <button onclick="showFilteredArray()">Прибрати</button>
+    <p id="filteredArrayOutput"></p>
+</div>
+
+<div>
+    <h2>1.3. Реверс рядка</h2>
+    <input type="text" id="textInput" placeholder="Введіть текст">
+    <button onclick="showReversedText()">Реверсувати</button>
+    <p id="reversedTextOutput"></p>
+</div>
+
+<div>
+    <h2>1.4. Замінити слова</h2>
+    <input type="text" id="sentenceInput" value="Я не люблю морозиво">
+    <button onclick="showModifiedSentence()">Замінити</button>
+    <p id="modifiedSentenceOutput"></p>
+</div>
+
+<script>
+    function reverseSequence(sequence) {
+        return sequence.split(' ').reverse().join(' ');
+    }
+
+    function removeZerosFromArray(array) {
+        return array.filter(number => number !== 0);
+    }
+
+    function reverseText(text) {
+        return text.split('').reverse().join('');
+    }
+
+    function swapWords(sentence) {
+        const words = sentence.split(' ');
+        if (words.length >= 3) {
+            [words[1], words[2]] = [words[2], words[1]];
+        }
+        return words.join(' ');
+    }
+
+    function showReversedSequence() {
+        const input = document.getElementById("numberSequenceInput").value;
+        const result = reverseSequence(input);
+        document.getElementById("reversedSequenceOutput").innerText = `Реверс: ${result}`;
+    }
+
+    function showFilteredArray() {
+        const input = document.getElementById("numberArrayInput").value.split(' ').map(Number);
+        const result = removeZerosFromArray(input);
+        document.getElementById("filteredArrayOutput").innerText = `Без нулів: ${result}`;
+    }
+
+    function showReversedText() {
+        const input = document.getElementById("textInput").value;
+        const result = reverseText(input);
+        document.getElementById("reversedTextOutput").innerText = `Реверс: ${result}`;
+    }
+
+    function showModifiedSentence() {
+        const input = document.getElementById("sentenceInput").value;
+        const result = swapWords(input);
+        document.getElementById("modifiedSentenceOutput").innerText = `Результат: ${result}`;
+    }
+</script>
+
+</body>
+</html>

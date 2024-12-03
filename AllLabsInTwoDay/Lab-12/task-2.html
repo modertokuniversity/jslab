@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анімований Логотип із Музикою</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            user-select: none;
+            flex-direction: column;
+        }
+
+        #logo {
+            width: 150px;
+            height: 150px;
+            background-color: #007bff;
+            border-radius: 50%;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            text-align: center;
+            line-height: 150px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            cursor: pointer;
+        }
+
+        #reminder {
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #333;
+        }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="logo">121 ІПЗ</div>
+    <div id="reminder">Натисніть на кружечок, щоб запустити анімацію і музику!</div>
+    <audio id="backgroundMusic" loop>
+        <source src="nazar-savko-bulka-(meloua.com).mp3" type="audio/mpeg">
+        Ваш браузер не підтримує аудіо.
+    </audio>
+
+    <script>
+        $(document).ready(function () {
+            const audio = document.getElementById("backgroundMusic");
+            let audioStarted = false;
+
+            function startAudio() {
+                if (!audioStarted) {
+                    audio.play().then(() => {
+                        audioStarted = true;
+                    }).catch(err => {
+                        console.error("Не вдалося відтворити аудіо:", err);
+                    });
+                }
+            }
+
+            function animateLogo() {
+                $("#logo").animate(
+                    {
+                        width: "200px",
+                        height: "200px",
+                        opacity: 0.8
+                    },
+                    {
+                        duration: 2000,
+                        easing: "swing",
+                        complete: function () {
+                            $(this).animate({
+                                left: "+=50px",
+                                top: "-=30px",
+                            }, {
+                                duration: 1000,
+                                easing: "linear",
+                                complete: function () {
+                                    $(this).css({
+                                        left: "0",
+                                        top: "0",
+                                        width: "150px",
+                                        height: "150px",
+                                        opacity: 1
+                                    });
+                                    animateLogo();
+                                }
+                            });
+                        }
+                    }
+                );
+            }
+
+            $("#logo").on("click", function () {
+                startAudio();
+                animateLogo();
+                $("#reminder").fadeOut(); 
+            });
+        });
+    </script>
+</body>
+</html>
